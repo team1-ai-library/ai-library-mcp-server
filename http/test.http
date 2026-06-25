@@ -1,0 +1,14 @@
+### 도서나루 API 응답 확인
+http://data4library.kr/api/libSrch?authKey=60bc1d7d1fde2a404cbb0fb74d4a4ce834b658001dd9a7583db32524cdaf5abf&region=24&format=json
+
+### searchBooks
+GET http://data4library.kr/api/srchBooks?authKey=60bc1d7d1fde2a404cbb0fb74d4a4ce834b658001dd9a7583db32524cdaf5abf&title=소년이 운다&format=json
+
+### searchLibraries
+GET http://data4library.kr/api/libSrch?authKey=60bc1d7d1fde2a404cbb0fb74d4a4ce834b658001dd9a7583db32524cdaf5abf&region=11&format=json
+
+### checkBookExists
+GET http://data4library.kr/api/bookExist?authKey=60bc1d7d1fde2a404cbb0fb74d4a4ce834b658001dd9a7583db32524cdaf5abf&libCode=711618&isbn13=9788958284178&format=json
+
+### checkLoanAvailability
+GET http://data4library.kr/api/libSrchByBook?authKey=60bc1d7d1fde2a404cbb0fb74d4a4ce834b658001dd9a7583db32524cdaf5abf&isbn=9788958284178&region=11&format=json
