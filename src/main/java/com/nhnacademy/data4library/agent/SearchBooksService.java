@@ -1,32 +1,32 @@
 package com.nhnacademy.data4library.agent;
 
-import com.nhnacademy.data4library.annotation.Agent;
 import com.nhnacademy.data4library.api.NaruApiClient;
-import com.nhnacademy.data4library.dto.LibsResponse;
+import com.nhnacademy.data4library.dto.DocsResponse;
 import com.nhnacademy.data4library.dto.NaruApiResponse;
 import com.nhnacademy.data4library.exception.NaruApiException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
-@Agent
+@Service
 @RequiredArgsConstructor
 @Slf4j
-public class SearchLibrariesByBooks {
+public class SearchBooksService {
 
     private final NaruApiClient naruApiClient;
 
-    public NaruApiResponse<LibsResponse> searchLibrariesByBooks(String isbn, String region) {
+    public NaruApiResponse<DocsResponse> searchBooks(String title) {
 
-        log.info("[SearchLibrariesByBooks] 에이전트 호출");
+        log.info("[SearchBooksAgent] 에이전트 호출");
 
-        NaruApiResponse<LibsResponse> result = this.naruApiClient.searchLibrariesByBooks(isbn, region);
+        NaruApiResponse<DocsResponse> result = this.naruApiClient.searchBooks(title);
 
-        log.info("[SearchLibrariesByBooks] API 응답 결과: {}", result);
+        log.info("[SearchBooksAgent] API 응답 결과: {}", result); // TODO Pretty Printing 할 것
 
         if (Objects.isNull(result) || Objects.isNull(result.response())) {
-            throw new NaruApiException("NULL_RESPONSE_SEARCH_LIBRARIES_BY_BOOKS", "API 응답 결과가 null이거나 비어있습니다.");
+            throw new NaruApiException("NULL_RESPONSE_SEARCH_BOOKS", "API 응답 결과가 null이거나 비어있습니다.");
         }
 
         // 널이 들어올 수 있는 것임

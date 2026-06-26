@@ -1,19 +1,19 @@
 package com.nhnacademy.data4library.agent;
 
-import com.nhnacademy.data4library.annotation.Agent;
 import com.nhnacademy.data4library.api.NaruApiClient;
 import com.nhnacademy.data4library.dto.BookExistBody;
 import com.nhnacademy.data4library.dto.NaruApiResponse;
 import com.nhnacademy.data4library.exception.NaruApiException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
-@Agent
+@Service
 @RequiredArgsConstructor
 @Slf4j
-public class CheckBookExistAgent {
+public class CheckBookExistService {
 
     private final NaruApiClient naruApiClient;
 
