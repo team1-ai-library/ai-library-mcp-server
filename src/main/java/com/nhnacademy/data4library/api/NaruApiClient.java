@@ -22,7 +22,7 @@ public class NaruApiClient {
     private final NaruApiProperties naruApiProperties;
     private final RestClient restClient;
 
-    private static final String API_CALL_LOGGING = "[NaruApiClient] API 호출: {}";
+    private static final String API_CALL_LOGGING = "[NaruApiClient] API 호출 - URL: {}";
 
     // 도서 제목으로 검색
     public NaruApiResponse<DocsResponse> searchBooks(String title) {
@@ -70,9 +70,10 @@ public class NaruApiClient {
     // 특정 도서관에 그 도서가 소장되어 있는지 확인
     public NaruApiResponse<BookExistBody> checkBookExists(String libCode, String isbn) {
 
-        String url = UriComponentsBuilder.fromUriString("/libSrch")
+        String url = UriComponentsBuilder.fromUriString("/bookExist")
                 .queryParam("authKey", this.naruApiProperties.apiKey())
                 .queryParam("libCode", libCode)
+                .queryParam("isbn13", isbn)
                 .queryParam("format", "json")
                 .build()
                 .encode(StandardCharsets.UTF_8)

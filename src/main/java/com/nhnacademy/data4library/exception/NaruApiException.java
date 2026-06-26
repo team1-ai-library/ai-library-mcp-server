@@ -1,11 +1,14 @@
 package com.nhnacademy.data4library.exception;
 
-public class NaruApiException extends RuntimeException {
-    public NaruApiException(String message) {
-        super(message);
-    }
+import lombok.Getter;
 
-    public NaruApiException(String message, Throwable cause) {
-        super(message, cause);
+@Getter
+public class NaruApiException extends RuntimeException {
+
+    private final String errorCode;
+
+    public NaruApiException(String errorCode, String error) {
+        super(error);
+        this.errorCode = "NARU_" + errorCode.toUpperCase();
     }
 }
