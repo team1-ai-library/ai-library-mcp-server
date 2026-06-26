@@ -5,6 +5,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 public record LibsResponse(
+
+        @JsonProperty("errorCode")
+        String errorCode,
+
+        @JsonProperty("error")
+        String error,
+
         @JsonProperty("pageNo")
         String pageNo,
 
