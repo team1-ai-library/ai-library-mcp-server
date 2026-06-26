@@ -1,8 +1,8 @@
-package com.nhnacademy.data4library.dto;
+package com.nhnacademy.data4library.dto.common;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public record Lib(
+public record NaruLibrary(
         @JsonProperty("libCode")
         String libCode,
 

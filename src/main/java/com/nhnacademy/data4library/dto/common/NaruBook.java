@@ -1,8 +1,8 @@
-package com.nhnacademy.data4library.dto;
+package com.nhnacademy.data4library.dto.common;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public record Doc(
+public record NaruBook(
         @JsonProperty("bookname")
         String bookName,
 
@@ -16,7 +16,7 @@ public record Doc(
         String publicationYear,
 
         @JsonProperty("isbn13")
-        String isbn,
+        String isbn13,
 
         @JsonProperty("addition_symbol")
         String additionSymbol,
@@ -31,7 +31,7 @@ public record Doc(
         String classNm,
 
         @JsonProperty("bookImageURL")
-        String bookImageURL,
+        String bookImageUrl,
 
         @JsonProperty("bookDtlUrl")
         String bookDtlUrl,

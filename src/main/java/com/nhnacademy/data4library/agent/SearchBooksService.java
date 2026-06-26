@@ -1,7 +1,6 @@
 package com.nhnacademy.data4library.agent;
 
 import com.nhnacademy.data4library.api.NaruApiClient;
-import com.nhnacademy.data4library.dto.DocsResponse;
 import com.nhnacademy.data4library.dto.NaruApiResponse;
 import com.nhnacademy.data4library.exception.NaruApiException;
 import lombok.RequiredArgsConstructor;
