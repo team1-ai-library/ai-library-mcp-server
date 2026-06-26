@@ -5,4 +5,6 @@ spring:
   application:
     name: data4library
 
-naru-api-key: ${NARU_API_KEY}
+naru-api:
+  api-key: ${NARU_API_KEY}
+  base-url: http://data4library.kr/api
