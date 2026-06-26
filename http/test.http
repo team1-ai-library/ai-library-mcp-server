@@ -11,4 +11,4 @@ GET http://data4library.kr/api/libSrch?authKey=60bc1d7d1fde2a404cbb0fb74d4a4ce83
 GET http://data4library.kr/api/bookExist?authKey=60bc1d7d1fde2a404cbb0fb74d4a4ce834b658001dd9a7583db32524cdaf5bf&libCode=711618&isbn13=9788958284178&format=json
 
 ### checkLoanAvailability
-GET http://data4library.kr/api/libSrchByBook?authKey=60bc1d7d1fde2a404cbb0fb74d4a4ce834b658001dd9a7583db32524cdaf5abf&isbn=9788958284178&region=11&format=json
+GET http://data4library.kr/api/libSrchByBook?authKey=60bc1d7d1fde2a404cbbfb74d4a4ce834b658001dd9a7583db32524cdaf5abf&isbn=9788958284178&region=11&format=json
