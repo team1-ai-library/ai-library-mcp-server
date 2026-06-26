@@ -26,11 +26,9 @@ public class NaruApiClient {
     private final RestClient restClient;
     private final ObjectMapper objectMapper;
 
-    private static final String API_CALL_LOGGING = "[NaruApiClient] API 호출 - URL: {}";
-
     private <T> T execute(String url, TypeReference<NaruApiResponse<T>> typeRef) {
 
-        log.info(API_CALL_LOGGING, url);
+        log.info("[NaruApiClient] API 호출 - URL: {}", url);
 
         try {
             String raw = this.restClient.get()
@@ -52,7 +50,11 @@ public class NaruApiClient {
                 );
             }
             // 실제 타입으로 역직렬화
-            return this.objectMapper.readValue(raw, typeRef).response();
+            T result = this.objectMapper.readValue(raw, typeRef).response();
+
+            log.info("[NaruApiClient] API 응답 결과: {}", result.toString());
+
+            return result;
         } catch (NaruApiException e) {
             throw e;
         } catch (Exception e) {
@@ -139,7 +141,8 @@ public class NaruApiClient {
 
     // Date 파싱 필요할지도
     // 인기 대출 도서 (loanItemSrch)
-    public LoanItemResponse loanItemsSearch(String startDate, String endDate, String region) {
+    // API는 /loanItemSrch지만, 어쩔 수 없다.
+    public LoanItemResponse searchHotBooksByDateAndRegion(String startDate, String endDate, String region) {
 
         String url = UriComponentsBuilder.fromUriString("/loanItemSrch")
                 .queryParam("authKey", this.naruApiProperties.apiKey())

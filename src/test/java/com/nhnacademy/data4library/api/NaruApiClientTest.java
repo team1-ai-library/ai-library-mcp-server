@@ -349,7 +349,7 @@ class NaruApiClientTest {
                 """;
         givenResponse(json);
 
-        LoanItemResponse response = naruApiClient.loanItemsSearch("2024-01-01", "2024-12-31", "29");
+        LoanItemResponse response = naruApiClient.searchHotBooksByDateAndRegion("2024-01-01", "2024-12-31", "29");
 
         log.info("[loanItemsSearch 정상 응답] {}", response);
         assertThat(response).isNotNull();
@@ -366,7 +366,7 @@ class NaruApiClientTest {
     void loanItemsSearch_error() {
         givenResponse(ERROR_JSON);
 
-        assertThatThrownBy(() -> naruApiClient.loanItemsSearch("2024-01-01", "2024-12-31", "29"))
+        assertThatThrownBy(() -> naruApiClient.searchHotBooksByDateAndRegion("2024-01-01", "2024-12-31", "29"))
                 .isInstanceOf(NaruApiException.class)
                 .hasMessageContaining("authKey가 유효하지 않습니다.");
 
