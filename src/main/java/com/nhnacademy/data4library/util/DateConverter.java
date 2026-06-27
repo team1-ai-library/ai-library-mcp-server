@@ -29,7 +29,7 @@ public class DateConverter {
         return Optional.ofNullable(parseRelative(date))
                 .or(() -> Optional.ofNullable(parseAbsolute(date)))
                 .map(d -> d.format(API_FORMAT))
-                .orElse(null);
+                .orElse(today());
     }
 
     /*
@@ -62,7 +62,7 @@ public class DateConverter {
         return null;
     }
 
-    public static String today() {
+    private static String today() {
         return LocalDate.now().format(API_FORMAT);
     }
 }

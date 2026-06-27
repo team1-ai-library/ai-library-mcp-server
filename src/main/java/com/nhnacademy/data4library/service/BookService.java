@@ -5,6 +5,7 @@ import com.nhnacademy.data4library.dto.response.BookDetailInfo;
 import com.nhnacademy.data4library.dto.response.BookInfo;
 import com.nhnacademy.data4library.dto.response.HotTrendBookInfo;
 import com.nhnacademy.data4library.dto.response.LoanBookInfo;
+import com.nhnacademy.data4library.exception.ErrorCode;
 import com.nhnacademy.data4library.exception.NaruApiException;
 import com.nhnacademy.data4library.util.DateConverter;
 import com.nhnacademy.data4library.util.RecommendTypeConverter;
@@ -56,7 +57,7 @@ public class BookService {
                         item.book().publicationYear(),
                         item.book().description()
                 ))
-                .orElseThrow(() -> new NaruApiException("NOT_FOUND", "도서 상세 정보를 찾을 수 없습니다."));
+                .orElseThrow(() -> new NaruApiException(ErrorCode.NOT_FOUND, "도서 상세 정보를 찾을 수 없습니다."));
     }
 
     public List<LoanBookInfo> searchHotBooks(String startDate, String endDate, String region) {

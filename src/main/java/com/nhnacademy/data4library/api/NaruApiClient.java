@@ -1,4 +1,7 @@
 package com.nhnacademy.data4library.api;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.data4library.dto.naru.NaruApiResponse;
@@ -6,6 +9,7 @@ import com.nhnacademy.data4library.dto.naru.book.*;
 import com.nhnacademy.data4library.dto.naru.error.NaruErrorResponse;
 import com.nhnacademy.data4library.dto.naru.library.BookExistResponse;
 import com.nhnacademy.data4library.dto.naru.library.LibrarySearchResponse;
+import com.nhnacademy.data4library.exception.ErrorCode;
 import com.nhnacademy.data4library.exception.NaruApiException;
 import com.nhnacademy.data4library.properties.NaruApiProperties;
 import lombok.RequiredArgsConstructor;
@@ -43,21 +47,25 @@ public class NaruApiClient {
             );
 
             if (errorCheck.response().hasError()) {
-                throw new NaruApiException(
-                        errorCheck.response().errorCode(),
-                        errorCheck.response().error()
+                throw new NaruApiException(ErrorCode.NARU_API_ERROR,
+                        "{errorCode: %s, error: %s}"
+                                .formatted(errorCheck.response().errorCode(), errorCheck.response().error())
                 );
             }
             // 실제 타입으로 역직렬화
             T result = this.objectMapper.readValue(raw, typeRef).response();
 
-            log.info("[NaruApiClient] API 응답 결과: {}", result.toString());
+            // pretty printing
+            log.info("[NaruApiClient] API 응답 결과: {}",
+                    this.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(result));
 
             return result;
         } catch (NaruApiException e) {
             throw e;
+        } catch (JsonParseException e) {
+            throw new NaruApiException(ErrorCode.PARSE_ERROR, e.getMessage());
         } catch (Exception e) {
-            throw new NaruApiException("PARSE_ERROR", e.getMessage());
+            throw new NaruApiException(ErrorCode.API_ERROR, "API 호출 실패: %s".formatted(e.getMessage()));
         }
     }
 
@@ -69,7 +77,6 @@ public class NaruApiClient {
                 .queryParam("title", title)
                 .queryParam("format", "json") // XML 대신 JSON으로 받겠다는 것
                 .build()
-                .encode(StandardCharsets.UTF_8) // URL 인코딩
                 .toUriString();
 
         return this.execute(url, new TypeReference<>() {
@@ -84,7 +91,6 @@ public class NaruApiClient {
                 .queryParam("region", region)
                 .queryParam("format", "json")
                 .build()
-                .encode(StandardCharsets.UTF_8)
                 .toUriString();
 
         return this.execute(url, new TypeReference<>() {
@@ -100,7 +106,6 @@ public class NaruApiClient {
                 .queryParam("isbn13", isbn13)
                 .queryParam("format", "json")
                 .build()
-                .encode(StandardCharsets.UTF_8)
                 .toUriString();
 
         return this.execute(url, new TypeReference<>() {
@@ -116,7 +121,6 @@ public class NaruApiClient {
                 .queryParam("region", region)
                 .queryParam("format", "json")
                 .build()
-                .encode(StandardCharsets.UTF_8)
                 .toUriString();
 
         return this.execute(url, new TypeReference<>() {
@@ -131,7 +135,6 @@ public class NaruApiClient {
                 .queryParam("isbn13", isbn13)
                 .queryParam("format", "json")
                 .build()
-                .encode(StandardCharsets.UTF_8)
                 .toUriString();
 
         return this.execute(url, new TypeReference<>() {
@@ -150,7 +153,6 @@ public class NaruApiClient {
                 .queryParam("region", region)
                 .queryParam("format", "json")
                 .build()
-                .encode(StandardCharsets.UTF_8)
                 .toUriString();
 
         return this.execute(url, new TypeReference<>() {
@@ -166,7 +168,6 @@ public class NaruApiClient {
                 .queryParam("searchDt", searchDate)
                 .queryParam("format", "json")
                 .build()
-                .encode(StandardCharsets.UTF_8)
                 .toUriString();
 
         return this.execute(url, new TypeReference<>() {
@@ -183,7 +184,6 @@ public class NaruApiClient {
                 .queryParam("type", type)
                 .queryParam("format", "json")
                 .build()
-                .encode(StandardCharsets.UTF_8)
                 .toUriString();
 
         return this.execute(url, new TypeReference<>() {
