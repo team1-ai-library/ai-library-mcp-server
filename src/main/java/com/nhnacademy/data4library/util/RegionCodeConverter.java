@@ -1,6 +1,7 @@
 package com.nhnacademy.data4library.util;
 
-import com.nhnacademy.data4library.exception.NotSupportedRegionException;
+import com.nhnacademy.data4library.exception.ErrorCode;
+import com.nhnacademy.data4library.exception.NaruApiException;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -51,13 +52,14 @@ public class RegionCodeConverter {
 
     public static String convert(String regionName) {
         if (Objects.isNull(regionName) || regionName.isBlank()) {
-            throw new NotSupportedRegionException("지역명이 비어있습니다.");
+            throw new NaruApiException(ErrorCode.INVALID_PARAM, "지역명이 비어있습니다.");
         }
+
 
         String result = REGION_MAP.get(regionName.trim());
 
         if (Objects.isNull(result)) {
-            throw new NotSupportedRegionException("지원하지 않는 지역명입니다: " + regionName);
+            throw new NaruApiException(ErrorCode.NOT_SUPPORTED, "지원하지 않는 지역명입니다: %s".formatted(regionName));
         }
 
         return result;

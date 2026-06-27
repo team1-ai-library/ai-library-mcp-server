@@ -5,10 +5,10 @@ import lombok.Getter;
 @Getter
 public class NaruApiException extends RuntimeException {
 
-    private final String errorCode;
+    private final ErrorCode errorCode;
 
-    public NaruApiException(String errorCode, String error) {
+    public NaruApiException(ErrorCode errorCode, String error) {
         super(error);
-        this.errorCode = "NARU_" + errorCode.toUpperCase();
+        this.errorCode = errorCode;
     }
 }

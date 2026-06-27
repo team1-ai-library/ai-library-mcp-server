@@ -5,6 +5,7 @@ import com.nhnacademy.data4library.dto.response.BookDetailInfo;
 import com.nhnacademy.data4library.dto.response.BookInfo;
 import com.nhnacademy.data4library.dto.response.HotTrendBookInfo;
 import com.nhnacademy.data4library.dto.response.LoanBookInfo;
+import com.nhnacademy.data4library.exception.ErrorCode;
 import com.nhnacademy.data4library.exception.NaruApiException;
 import com.nhnacademy.data4library.util.DateConverter;
 import com.nhnacademy.data4library.util.RecommendTypeConverter;
@@ -56,7 +57,7 @@ public class BookService {
                         item.book().publicationYear(),
                         item.book().description()
                 ))
-                .orElseThrow(() -> new NaruApiException("NOT_FOUND", "도서 상세 정보를 찾을 수 없습니다."));
+                .orElseThrow(() -> new NaruApiException(ErrorCode.NOT_FOUND, "도서 상세 정보를 찾을 수 없습니다."));
     }
 
     public List<LoanBookInfo> searchHotBooks(String startDate, String endDate, String region) {
@@ -86,7 +87,9 @@ public class BookService {
 
         return naruApiClient.searchHotTrendBooks(DateConverter.parseAndFormat(searchDate))
                 .results()
-                .getFirst()
+                .stream()
+                .findFirst() // 가장 첫 번째 인덱스를 찾으려고 했는데 값이 아무것도 없으면 NotSuchElementException이 발생로
+                .orElseThrow(() -> new NaruApiException(ErrorCode.NOT_FOUND, "해당 날짜의 급상승 도서 결과가 없습니다: %s".formatted(searchDate)))
                 .result()
                 .docs()
                 .stream()

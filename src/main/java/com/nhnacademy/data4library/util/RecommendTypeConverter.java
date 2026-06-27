@@ -21,13 +21,13 @@ public class RecommendTypeConverter {
     public static String convert(String inputType) {
 
         if (Objects.isNull(inputType) || inputType.isBlank()) {
-            throw new IllegalArgumentException("추천 타입이 비어있습니다.");
+            return "mania";
         }
 
-        String result = TYPE_MAP.get(inputType.trim());
+        String result = TYPE_MAP.get(inputType.trim().toLowerCase());
 
         return Objects.nonNull(result)
                 ? result.toLowerCase()
-                : TYPE_MAP.get("mania"); // TODO 기본값 mania
+                : TYPE_MAP.get("mania");
     }
 }

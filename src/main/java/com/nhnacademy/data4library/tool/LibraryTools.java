@@ -19,9 +19,17 @@ public class LibraryTools {
     private final LibraryService libraryService;
 
     @Tool(description = """
-            지역명으로 도서관 목록을 검색합니다.
-            검색된 도서관 목록을 반환하며, 각 도서관은 도서관 코드, 도서관명, 주소, 전화번호, 운영시간, 홈페이지를 포함합니다.
-            """)
+        ## 지역 도서관 검색
+        지역명으로 해당 지역의 도서관 목록을 검색합니다.
+        
+        ### 반환 필드
+        - `libCode`: 도서관 코드 (checkBookExists 호출 시 사용)
+        - `libName`: 도서관명
+        - `address`: 주소
+        - `tel`: 전화번호
+        - `operatingTime`: 운영시간
+        - `homepage`: 홈페이지 URL
+        """)
     public List<LibraryInfo> searchLibraries(@ToolParam(description = "지역명 (예: 광주, 서울, 경기)") String region) {
 
         log.info("[LibraryTools] 도서관 검색 - region: {}", region);
@@ -29,9 +37,18 @@ public class LibraryTools {
     }
 
     @Tool(description = """
-            특정 도서를 소장하고 있는 도서관 목록을 조회합니다.
-            ISBN13과 지역명을 받아 해당 도서를 소장한 도서관 목록을 반환하며, 각 도서관은 도서관 코드, 도서관명, 주소, 전화번호, 운영시간, 홈페이지를 포함합니다.
-            """)
+        ## 도서 소장 도서관 검색
+        특정 도서(ISBN13)를 소장하고 있는 도서관 목록을 지역별로 조회합니다.
+        ISBN13은 searchBooks로 먼저 조회하세요.
+        
+        ### 반환 필드
+        - `libCode`: 도서관 코드 (checkBookExists 호출 시 사용)
+        - `libName`: 도서관명
+        - `address`: 주소
+        - `tel`: 전화번호
+        - `operatingTime`: 운영시간
+        - `homepage`: 홈페이지 URL
+        """)
     public List<LibraryInfo> searchLibrariesByBooks(@ToolParam(description = "ISBN13 13자리 (예: 9788960777330)") String isbn13,
                                                     @ToolParam(description = "지역명 (예: 광주, 서울, 경기)") String region) {
 
@@ -40,10 +57,15 @@ public class LibraryTools {
     }
 
     @Tool(description = """
-            특정 도서관에 특정 도서가 소장되어 있는지 확인합니다.
-            도서관 코드와 ISBN13을 받아 소장 여부와 대출 가능 여부를 반환합니다.
-            """)
-    public BookExistInfo checkBookExists(@ToolParam(description = "도서관 코드 (예: 129003)") String libCode,
+        ## 도서관 소장 여부 확인
+        특정 도서관에 특정 도서가 소장되어 있는지, 그리고 대출 가능한지 확인합니다.
+        도서관 코드는 searchLibraries 또는 searchLibrariesByBooks로 먼저 조회해야 합니다.
+        
+        ### 반환 필드
+        - `hasBook`: 소장 여부 (true/false)
+        - `loanAvailable`: 대출 가능 여부 (true/false)
+        """)
+    public BookExistInfo checkBookExists(@ToolParam(description = "도서관 코드 (searchLibraries로 조회 가능) (예: 129003)") String libCode,
                                          @ToolParam(description = "ISBN13 13자리 (예: 9788960777330)") String isbn13
     ) {
 

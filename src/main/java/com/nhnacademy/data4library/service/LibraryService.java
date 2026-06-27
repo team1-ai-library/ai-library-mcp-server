@@ -6,12 +6,15 @@ import com.nhnacademy.data4library.dto.naru.common.NaruLibrary;
 import com.nhnacademy.data4library.dto.naru.library.BookExistResponse;
 import com.nhnacademy.data4library.dto.response.BookExistInfo;
 import com.nhnacademy.data4library.dto.response.LibraryInfo;
+import com.nhnacademy.data4library.exception.ErrorCode;
+import com.nhnacademy.data4library.exception.NaruApiException;
 import com.nhnacademy.data4library.util.RegionCodeConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Slf4j
@@ -47,6 +50,10 @@ public class LibraryService {
         log.info("[LibraryService] 도서 소장 여부 확인 - libCode: {}, isbn13: {}", libCode, isbn13);
 
         BookExistResponse.BookExistResult result = this.naruApiClient.checkBookExists(libCode, isbn13).result();
+
+        if (Objects.isNull(result)) {
+            throw new NaruApiException(ErrorCode.NOT_FOUND, "소장 여부에 대한 정보를 찾을 수 없습니다.");
+        }
 
         return new BookExistInfo(
                 "Y".equals(result.hasBook()),
