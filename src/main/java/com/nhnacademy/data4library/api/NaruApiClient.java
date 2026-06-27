@@ -1,24 +1,23 @@
 package com.nhnacademy.data4library.api;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nhnacademy.data4library.annotation.ApiClient;
-import com.nhnacademy.data4library.dto.NaruApiResponse;
-import com.nhnacademy.data4library.dto.book.*;
-import com.nhnacademy.data4library.dto.error.NaruErrorResponse;
-import com.nhnacademy.data4library.dto.library.BookExistResponse;
-import com.nhnacademy.data4library.dto.library.LibrarySearchResponse;
+import com.nhnacademy.data4library.dto.naru.NaruApiResponse;
+import com.nhnacademy.data4library.dto.naru.book.*;
+import com.nhnacademy.data4library.dto.naru.error.NaruErrorResponse;
+import com.nhnacademy.data4library.dto.naru.library.BookExistResponse;
+import com.nhnacademy.data4library.dto.naru.library.LibrarySearchResponse;
 import com.nhnacademy.data4library.exception.NaruApiException;
 import com.nhnacademy.data4library.properties.NaruApiProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.nio.charset.StandardCharsets;
 
 @Slf4j
-@ApiClient
+@Component
 @RequiredArgsConstructor
 public class NaruApiClient {
 
@@ -93,12 +92,12 @@ public class NaruApiClient {
     }
 
     // 특정 도서관에 그 도서가 소장되어 있는지 확인
-    public BookExistResponse checkBookExists(String libCode, String isbn) {
+    public BookExistResponse checkBookExists(String libCode, String isbn13) {
 
         String url = UriComponentsBuilder.fromUriString("/bookExist")
                 .queryParam("authKey", this.naruApiProperties.apiKey())
                 .queryParam("libCode", libCode)
-                .queryParam("isbn13", isbn)
+                .queryParam("isbn13", isbn13)
                 .queryParam("format", "json")
                 .build()
                 .encode(StandardCharsets.UTF_8)

@@ -1,8 +1,8 @@
 package com.nhnacademy.data4library.api;
 
-import com.nhnacademy.data4library.dto.book.*;
-import com.nhnacademy.data4library.dto.library.BookExistResponse;
-import com.nhnacademy.data4library.dto.library.LibrarySearchResponse;
+import com.nhnacademy.data4library.dto.naru.book.*;
+import com.nhnacademy.data4library.dto.naru.library.BookExistResponse;
+import com.nhnacademy.data4library.dto.naru.library.LibrarySearchResponse;
 import com.nhnacademy.data4library.exception.NaruApiException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;

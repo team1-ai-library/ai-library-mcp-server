@@ -1,4 +1,4 @@
-package com.nhnacademy.data4library.dto.book;
+package com.nhnacademy.data4library.dto.naru.book;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

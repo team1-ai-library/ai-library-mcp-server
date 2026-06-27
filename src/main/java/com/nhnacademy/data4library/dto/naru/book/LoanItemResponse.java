@@ -1,20 +1,26 @@
-package com.nhnacademy.data4library.dto.book;
+package com.nhnacademy.data4library.dto.naru.book;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.nhnacademy.data4library.dto.common.BookWrapped;
+import com.nhnacademy.data4library.dto.naru.common.DocWrapped;
 
 import java.util.List;
 
-public record RecommendResponse(
+public record LoanItemResponse(
         @JsonProperty("resultNum")
         int resultNum,
 
+        @JsonProperty("numFound")
+        int numFound,
+
         @JsonProperty("docs")
-        List<BookWrapped<RecommendItem>> docs
+        List<DocWrapped<LoanItem>> docs
 ) {
-    public record RecommendItem(
+    public record LoanItem(
             @JsonProperty("no")
             int no,
+
+            @JsonProperty("ranking")
+            String ranking,
 
             @JsonProperty("bookname")
             String bookName,
@@ -32,6 +38,9 @@ public record RecommendResponse(
             String isbn13,
 
             @JsonProperty("bookImageURL")
-            String bookImageUrl
+            String bookImageUrl,
+
+            @JsonProperty("loan_count")
+            String loanCount
     ) {}
 }

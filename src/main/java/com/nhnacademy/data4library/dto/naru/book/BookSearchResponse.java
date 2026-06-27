@@ -1,8 +1,8 @@
-package com.nhnacademy.data4library.dto.book;
+package com.nhnacademy.data4library.dto.naru.book;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.nhnacademy.data4library.dto.common.DocWrapped;
-import com.nhnacademy.data4library.dto.common.NaruBook;
+import com.nhnacademy.data4library.dto.naru.common.DocWrapped;
+import com.nhnacademy.data4library.dto.naru.common.NaruBook;
 
 import java.util.List;
 
