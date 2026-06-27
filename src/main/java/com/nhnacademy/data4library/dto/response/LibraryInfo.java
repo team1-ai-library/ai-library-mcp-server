@@ -1,7 +1,7 @@
 package com.nhnacademy.data4library.dto.response;
 
 // libSrch, libSrchByBook 공통
-public record LibraryResult(
+public record LibraryInfo(
         String libCode,
         String libName,
         String address,

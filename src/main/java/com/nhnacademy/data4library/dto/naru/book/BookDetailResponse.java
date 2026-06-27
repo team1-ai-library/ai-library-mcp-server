@@ -52,7 +52,5 @@ public record BookDetailResponse(
             @JsonProperty("bookImageURL")
             String bookImageUrl
     ) {
-            public Object ay() {
-            }
     }
 }

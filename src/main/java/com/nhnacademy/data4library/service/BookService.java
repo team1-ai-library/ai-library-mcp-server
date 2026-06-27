@@ -1,10 +1,10 @@
 package com.nhnacademy.data4library.service;
 
 import com.nhnacademy.data4library.api.NaruApiClient;
-import com.nhnacademy.data4library.dto.response.BookDetailResult;
-import com.nhnacademy.data4library.dto.response.BookResult;
-import com.nhnacademy.data4library.dto.response.HotTrendBookResult;
-import com.nhnacademy.data4library.dto.response.LoanBookResult;
+import com.nhnacademy.data4library.dto.response.BookDetailInfo;
+import com.nhnacademy.data4library.dto.response.BookInfo;
+import com.nhnacademy.data4library.dto.response.HotTrendBookInfo;
+import com.nhnacademy.data4library.dto.response.LoanBookInfo;
 import com.nhnacademy.data4library.exception.NaruApiException;
 import com.nhnacademy.data4library.util.DateConverter;
 import com.nhnacademy.data4library.util.RecommendTypeConverter;
@@ -22,14 +22,14 @@ public class BookService {
 
     private final NaruApiClient naruApiClient;
 
-    public List<BookResult> searchBooks(String title) {
+    public List<BookInfo> searchBooks(String title) {
 
         log.info("[BookService] 도서 검색 - title: {}", title);
 
         return naruApiClient.searchBooks(title)
                 .docs()
                 .stream()
-                .map(item -> new BookResult(
+                .map(item -> new BookInfo(
                         item.doc().isbn13(),
                         item.doc().bookName(),
                         item.doc().authors(),
@@ -40,7 +40,7 @@ public class BookService {
                 .toList();
     }
 
-    public BookDetailResult searchBookDetail(String isbn13) {
+    public BookDetailInfo searchBookDetail(String isbn13) {
 
         log.info("[BookService] 도서 상세 검색 - isbn13: {}", isbn13);
 
@@ -48,7 +48,7 @@ public class BookService {
                 .detail()
                 .stream()
                 .findFirst()
-                .map(item -> new BookDetailResult(
+                .map(item -> new BookDetailInfo(
                         item.book().isbn13(),
                         item.book().bookName(),
                         item.book().authors(),
@@ -59,7 +59,7 @@ public class BookService {
                 .orElseThrow(() -> new NaruApiException("NOT_FOUND", "도서 상세 정보를 찾을 수 없습니다."));
     }
 
-    public List<LoanBookResult> searchHotBooks(String startDate, String endDate, String region) {
+    public List<LoanBookInfo> searchHotBooks(String startDate, String endDate, String region) {
 
         log.info("[BookService] 인기 대출 도서 검색 - startDate: {}, endDate: {}, region: {}", startDate, endDate, region);
 
@@ -70,7 +70,7 @@ public class BookService {
                 )
                 .docs()
                 .stream()
-                .map(item -> new LoanBookResult(
+                .map(item -> new LoanBookInfo(
                         item.doc().isbn13(),
                         item.doc().bookName(),
                         item.doc().authors(),
@@ -80,7 +80,7 @@ public class BookService {
                 .toList();
     }
 
-    public List<HotTrendBookResult> searchHotTrendBooks(String searchDate) {
+    public List<HotTrendBookInfo> searchHotTrendBooks(String searchDate) {
 
         log.info("[BookService] 급상승 도서 검색 - searchDate: {}", searchDate);
 
@@ -90,7 +90,7 @@ public class BookService {
                 .result()
                 .docs()
                 .stream()
-                .map(item -> new HotTrendBookResult(
+                .map(item -> new HotTrendBookInfo(
                         item.doc().isbn13(),
                         item.doc().bookName(),
                         item.doc().authors(),
@@ -100,14 +100,14 @@ public class BookService {
                 .toList();
     }
 
-    public List<BookResult> searchRecommendBooks(String isbn13, String type) {
+    public List<BookInfo> searchRecommendBooks(String isbn13, String type) {
 
         log.info("[BookService] 추천 도서 검색 - isbn13: {}, type: {}", isbn13, type);
 
         return this.naruApiClient.searchRecommendBooks(isbn13, RecommendTypeConverter.convert(type))
                 .docs()
                 .stream()
-                .map(item -> new BookResult(
+                .map(item -> new BookInfo(
                         item.book().isbn13(),
                         item.book().bookName(),
                         item.book().authors(),

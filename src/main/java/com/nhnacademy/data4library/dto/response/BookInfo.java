@@ -1,11 +1,12 @@
 package com.nhnacademy.data4library.dto.response;
 
-// hotTrend 전용
-public record HotTrendBookResult(
+// srchBooks, recommandList 공통
+public record BookInfo(
         String isbn13,
         String bookName,
         String authors,
         String publisher,
-        int baseWeekRank
+        String publicationYear,
+        String loanCount
 ) {
 }
