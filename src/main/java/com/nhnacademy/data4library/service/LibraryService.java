@@ -31,11 +31,11 @@ public class LibraryService {
                 .toList();
     }
 
-    public List<LibraryInfo> searchLibrariesByBooks(String isbn, String region) {
+    public List<LibraryInfo> searchLibrariesByBooks(String isbn13, String region) {
 
-        log.info("[LibraryService] 도서 소장 도서관 검색 - isbn: {}, region: {}", isbn, region);
+        log.info("[LibraryService] 도서 소장 도서관 검색 - isbn13: {}, region: {}", isbn13, region);
 
-        return naruApiClient.searchLibrariesByBooks(isbn, RegionCodeConverter.convert(region))
+        return naruApiClient.searchLibrariesByBooks(isbn13, RegionCodeConverter.convert(region))
                 .libs()
                 .stream()
                 .map(this::toLibraryResult)
