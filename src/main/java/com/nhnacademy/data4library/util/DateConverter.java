@@ -1,7 +1,5 @@
 package com.nhnacademy.data4library.util;
 
-import ch.qos.logback.core.util.DatePatternToRegexUtil;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -9,9 +7,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public class DateUtil {
+public class DateConverter {
 
-    public DateUtil() {}
+    public DateConverter() {}
 
     private static final DateTimeFormatter API_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 

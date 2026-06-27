@@ -1,12 +1,14 @@
 package com.nhnacademy.data4library.util;
 
+import com.nhnacademy.data4library.exception.NotSupportedRegionException;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class RegionCodeMapper {
+public class RegionCodeConverter {
 
-    private RegionCodeMapper() {}
+    private RegionCodeConverter() {}
 
     private static final Map<String, String> REGION_MAP = new LinkedHashMap<>();
 
@@ -49,8 +51,15 @@ public class RegionCodeMapper {
 
     public static String convert(String regionName) {
         if (Objects.isNull(regionName) || regionName.isBlank()) {
-            return null;
+            throw new NotSupportedRegionException("지역명이 비어있습니다.");
         }
-        return REGION_MAP.get(regionName.trim());
+
+        String result = REGION_MAP.get(regionName.trim());
+
+        if (Objects.isNull(result)) {
+            throw new NotSupportedRegionException("지원하지 않는 지역명입니다: " + regionName);
+        }
+
+        return result;
     }
 }

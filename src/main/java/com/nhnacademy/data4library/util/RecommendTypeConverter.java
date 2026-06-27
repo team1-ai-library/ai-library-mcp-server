@@ -4,11 +4,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class RecommendTypeUtil {
+public class RecommendTypeConverter {
 
     private static final Map<String, String> TYPE_MAP = new LinkedHashMap<>();
 
-    // What the Fuck 마이아? 다독자?
+    // 마니아? 다독자?
     static {
         TYPE_MAP.put("마니아", "mania");
         TYPE_MAP.put("mania", "mania");
@@ -19,9 +19,15 @@ public class RecommendTypeUtil {
     }
 
     public static String convert(String inputType) {
+
         if (Objects.isNull(inputType) || inputType.isBlank()) {
-            return null;
+            throw new IllegalArgumentException("추천 타입이 비어있습니다.");
         }
-        return TYPE_MAP.get(inputType.trim()).toLowerCase();
+
+        String result = TYPE_MAP.get(inputType.trim());
+
+        return Objects.nonNull(result)
+                ? result.toLowerCase()
+                : TYPE_MAP.get("mania"); // TODO 기본값 mania
     }
 }
