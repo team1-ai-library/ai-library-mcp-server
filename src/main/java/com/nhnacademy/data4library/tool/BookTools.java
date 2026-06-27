@@ -1,5 +1,6 @@
 package com.nhnacademy.data4library.tool;
 
+import com.nhnacademy.data4library.dto.response.BookDetailInfo;
 import com.nhnacademy.data4library.dto.response.BookInfo;
 import com.nhnacademy.data4library.dto.response.HotTrendBookInfo;
 import com.nhnacademy.data4library.dto.response.LoanBookInfo;
@@ -53,16 +54,10 @@ public class BookTools {
             - 도서 제목만 알고 있을 경우 searchBooks로 먼저 ISBN13을 조회한 후 사용하세요.
             - 도서를 찾을 수 없는 경우 오류 메시지를 반환합니다.
             """)
-    public Object searchBookDetail(@ToolParam(description = "13자리 ISBN13 (예: 9788960777330)") String isbn13) {
+    public BookDetailInfo searchBookDetail(@ToolParam(description = "13자리 ISBN13 (예: 9788960777330)") String isbn13) {
 
         log.info("[BookTools] 도서 상세 조회 - isbn13: {}", isbn13);
-
-        try {
-            return bookService.searchBookDetail(isbn13);
-        } catch (NaruApiException e) {
-            log.warn("[BookTools] 도서 상세 조회 실패 - isbn13: {}, message: {}", isbn13, e.getMessage());
-            return e.getMessage(); // "도서 상세 정보를 찾을 수 없습니다." 가 날라감
-        }
+        return bookService.searchBookDetail(isbn13);
     }
 
     @Tool(description = """

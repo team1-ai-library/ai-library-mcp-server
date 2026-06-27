@@ -56,10 +56,18 @@
         </dependency>
 
         <!-- .env 파일을 Spring이 자동으로 읽도록 해 주는 라이브러리 -->
+        <!-- 기존 거 -->
+        <!--        <dependency>-->
+        <!--            <groupId>me.paulschwarz</groupId>-->
+        <!--            <artifactId>spring-dotenv</artifactId>-->
+        <!--            <version>3.0.0</version>-->
+        <!--        </dependency>-->
+
+        <!-- .env 파일을 Spring이 자동으로 읽도록 해 주는 라이브러리 -->
+        <!--        방금 가져옴-->
         <dependency>
             <groupId>me.paulschwarz</groupId>
-            <artifactId>spring-dotenv</artifactId>
-            <version>4.0.0</version>
+            <artifactId>springboot3-dotenv</artifactId>
         </dependency>
     </dependencies>
 
@@ -69,6 +77,16 @@
                 <groupId>org.springframework.ai</groupId>
                 <artifactId>spring-ai-bom</artifactId>
                 <version>2.0.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- .env 파일을 Spring이 자동으로 읽도록 해 주는 라이브러리 -->
+            <!-- 가져옴 방금 -->
+            <dependency>
+                <groupId>me.paulschwarz</groupId>
+                <artifactId>spring-dotenv-bom</artifactId>
+                <version>5.1.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

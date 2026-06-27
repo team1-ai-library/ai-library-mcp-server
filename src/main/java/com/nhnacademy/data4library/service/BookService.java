@@ -87,7 +87,9 @@ public class BookService {
 
         return naruApiClient.searchHotTrendBooks(DateConverter.parseAndFormat(searchDate))
                 .results()
-                .getFirst()
+                .stream()
+                .findFirst() // 가장 첫 번째 인덱스를 찾으려고 했는데 값이 아무것도 없으면 NotSuchElementException이 발생로
+                .orElseThrow(() -> new NaruApiException(ErrorCode.NOT_FOUND, "해당 날짜의 급상승 도서 결과가 없습니다: %s".formatted(searchDate)))
                 .result()
                 .docs()
                 .stream()

@@ -28,6 +28,6 @@ public class RecommendTypeConverter {
 
         return Objects.nonNull(result)
                 ? result.toLowerCase()
-                : TYPE_MAP.get("mania"); // TODO 기본값 mania
+                : TYPE_MAP.get("mania");
     }
 }
