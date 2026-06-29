@@ -55,7 +55,6 @@ public class RegionCodeConverter {
             throw new NaruApiException(ErrorCode.INVALID_PARAM, "지역명이 비어있습니다.");
         }
 
-
         String result = REGION_MAP.get(regionName.trim());
 
         if (Objects.isNull(result)) {
