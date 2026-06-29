@@ -4,7 +4,6 @@ import com.nhnacademy.data4library.dto.response.BookDetailInfo;
 import com.nhnacademy.data4library.dto.response.BookInfo;
 import com.nhnacademy.data4library.dto.response.HotTrendBookInfo;
 import com.nhnacademy.data4library.dto.response.LoanBookInfo;
-import com.nhnacademy.data4library.exception.NaruApiException;
 import com.nhnacademy.data4library.service.BookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,11 +28,9 @@ public class BookTools {
             - ISBN13, 제목, 저자, 출판사, 출판년도, 대출 횟수
             
             ### 주의 사항
-            - 이 도구는 title 파라미터만 받습니더. region 등 다른 파라미터는 절대 전달하지 마세요.
+            - 이 도구는 title 파라미터만 받습니다. region 등 다른 파라미터는 절대 전달하지 마세요.
             - 지역별 도서관 검색은 searchLibraries를 사용하세요.
-            - 특정 도서관의 소장 여부 확인은 checkBookExists를 사용하세요.
-            - 반환된 ISBN13은 searchBookDetail, searchRecommendBooks, searchLibrariesByBooks에서 활용할 수 있습니다.
-            
+            - 변환된 ISBN13은 searchBookDetail, searchRecommendBooks, searchAvailableLibraries에서 활용할 수 있습니다.
             """)
     public List<BookInfo> searchBooks(@ToolParam(description = "검색할 도서 제목 키워드 (예: 토비의 스프링, 파이썬)") String title) {
 
@@ -124,7 +121,6 @@ public class BookTools {
             - "JPA 프로그래밍과 비슷한 책 추천해줘" → searchBooks로 ISBN13 확보 후 mania 타입으로 호출
             - "다독자들이 추천하는 책 알려줘" → reader 타입으로 호출
             """)
-
     public List<BookInfo> searchRecommendBooks(@ToolParam(description = "기준 도서의 ISBN13 13자리 숫자 (예: 9788960777330)") String isbn13,
                                                @ToolParam(description = "추천 타입 (마니아/mania 또는 다독자/reader)") String type
     ) {
