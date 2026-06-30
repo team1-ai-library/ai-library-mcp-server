@@ -13,7 +13,6 @@ public class McpConfig {
     @Bean
     public ToolCallbackProvider customToolCallbackProvider(BookTools bookTools,
                                                            LibraryTools libraryTools) {
-
         return MethodToolCallbackProvider.builder()
                 .toolObjects(bookTools, libraryTools)
                 .build();

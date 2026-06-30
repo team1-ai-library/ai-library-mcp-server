@@ -1,13 +1,12 @@
 package com.nhnacademy.data4library.api;
 
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.data4library.dto.naru.NaruApiResponse;
 import com.nhnacademy.data4library.dto.naru.book.*;
 import com.nhnacademy.data4library.dto.naru.error.NaruErrorResponse;
-import com.nhnacademy.data4library.dto.naru.library.BookExistResponse;
+import com.nhnacademy.data4library.dto.naru.library.BookExistsResponse;
 import com.nhnacademy.data4library.dto.naru.library.LibrarySearchResponse;
 import com.nhnacademy.data4library.exception.ErrorCode;
 import com.nhnacademy.data4library.exception.NaruApiException;
@@ -17,8 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import java.nio.charset.StandardCharsets;
 
 @Slf4j
 @Component
@@ -98,7 +95,7 @@ public class NaruApiClient {
     }
 
     // 특정 도서관에 그 도서가 소장되어 있는지 확인
-    public BookExistResponse checkBookExists(String libCode, String isbn13) {
+    public BookExistsResponse checkBookExists(String libCode, String isbn13) {
 
         String url = UriComponentsBuilder.fromUriString("/bookExist")
                 .queryParam("authKey", this.naruApiProperties.apiKey())
