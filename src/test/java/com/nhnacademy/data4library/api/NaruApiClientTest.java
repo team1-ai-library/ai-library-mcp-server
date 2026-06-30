@@ -1,7 +1,7 @@
 package com.nhnacademy.data4library.api;
 
 import com.nhnacademy.data4library.dto.naru.book.*;
-import com.nhnacademy.data4library.dto.naru.library.BookExistResponse;
+import com.nhnacademy.data4library.dto.naru.library.BookExistsResponse;
 import com.nhnacademy.data4library.dto.naru.library.LibrarySearchResponse;
 import com.nhnacademy.data4library.exception.NaruApiException;
 import lombok.extern.slf4j.Slf4j;
@@ -178,7 +178,7 @@ class NaruApiClientTest {
                 """;
         givenResponse(json);
 
-        BookExistResponse response = naruApiClient.checkBookExists("711618", "9788958284178");
+        BookExistsResponse response = naruApiClient.checkBookExists("711618", "9788958284178");
 
         log.info("[checkBookExists 정상 응답] {}", response);
         assertThat(response).isNotNull();

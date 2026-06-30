@@ -3,8 +3,8 @@ package com.nhnacademy.data4library.service;
 import com.nhnacademy.data4library.api.NaruApiClient;
 import com.nhnacademy.data4library.dto.naru.common.LibWrapped;
 import com.nhnacademy.data4library.dto.naru.common.NaruLibrary;
-import com.nhnacademy.data4library.dto.naru.library.BookExistResponse;
-import com.nhnacademy.data4library.dto.response.BookExistInfo;
+import com.nhnacademy.data4library.dto.naru.library.BookExistsResponse;
+import com.nhnacademy.data4library.dto.response.BookExistsInfo;
 import com.nhnacademy.data4library.dto.response.LibraryAvailabilityInfo;
 import com.nhnacademy.data4library.dto.response.LibraryInfo;
 import com.nhnacademy.data4library.exception.ErrorCode;
@@ -49,17 +49,17 @@ public class LibraryService {
     }
 
     // 도서관 코드와 ISBN으로 해당 도서관 '대출 가능 여부' 확인
-    public BookExistInfo checkBookExists(String libCode, String isbn13) {
+    public BookExistsInfo checkBookExists(String libCode, String isbn13) {
 
         log.info("[LibraryService] 도서 소장 여부 확인 - libCode: {}, isbn13: {}", libCode, isbn13);
 
-        BookExistResponse.BookExistResult result = this.naruApiClient.checkBookExists(libCode, isbn13).result();
+        BookExistsResponse.BookExistResult result = this.naruApiClient.checkBookExists(libCode, isbn13).result();
 
         if (Objects.isNull(result)) {
             throw new NaruApiException(ErrorCode.NOT_FOUND, "소장 여부에 대한 정보를 찾을 수 없습니다.");
         }
 
-        return new BookExistInfo(
+        return new BookExistsInfo(
                 "Y".equals(result.hasBook()),
                 "Y".equals(result.loanAvailable())
         );
@@ -82,14 +82,14 @@ public class LibraryService {
         // 각 도서관마다
         for (LibraryInfo lib : libs) {
 
-            BookExistInfo existInfo;
+            BookExistsInfo existsInfo;
             try {
                 // 현재 대출 가능 여부
                 // 소장은 하고 있어도 지금 모두 대출 중이면 대출 불가능할 수 있으므로.
-                existInfo = this.checkBookExists(lib.libCode(), isbn13);
+                existsInfo = this.checkBookExists(lib.libCode(), isbn13);
             } catch (NaruApiException e) {
                 log.warn("[LibraryService] 소장 여부 확인 실패 - libCode: {}, 원인: {}", lib.libCode(), e.getMessage());
-                existInfo = new BookExistInfo(false, false);
+                existsInfo = new BookExistsInfo(false, false);
             }
 
             result.add(new LibraryAvailabilityInfo(
@@ -99,8 +99,8 @@ public class LibraryService {
                     lib.tel(),
                     lib.operatingTime(),
                     lib.homepage(),
-                    existInfo.hasBook(),
-                    existInfo.loanAvailable()
+                    existsInfo.hasBook(),
+                    existsInfo.loanAvailable()
             ));
         }
 
