@@ -23,14 +23,12 @@ public class BookTools {
     @Tool(description = """
             # 도서 제목 검색
             도서 제목의 키워드로 전국 도서 목록을 검색합니다.
-            
-            ## 반환 정보
-            - ISBN13, 제목, 저자, 출판사, 출판년도, 대출 횟수
-            
+
             ### 주의 사항
             - 이 도구는 title 파라미터만 받습니다. region 등 다른 파라미터는 절대 전달하지 마세요.
             - 지역별 도서관 검색은 searchLibraries를 사용하세요.
-            - 변환된 ISBN13은 searchBookDetail, searchRecommendBooks, searchAvailableLibraries에서 활용할 수 있습니다.
+            - 반환된 ISBN13은 searchRecommendBooks, searchAvailableLibraries에서 활용할 수 있습니다.
+            - **절대로 ISBN13을 직접 만들거나 추측하지 마세요. 반드시 이 도구로 먼저 조회하세요.**
             """)
     public List<BookInfo> searchBooks(@ToolParam(description = "검색할 도서 제목 키워드 (예: 토비의 스프링, 파이썬)") String title) {
 
@@ -40,12 +38,8 @@ public class BookTools {
 
     @Tool(description = """
             # 도서 상세 정보 조회
-            
             ISBN13으로 특정 도서의 상세 정보를 조회합니다.
-            
-            ## 반환 정보
-            - ISBN13, 제목, 저자, 출판사, 출판연도, 도서 설명
-            
+
             ## 주의사항
             - ISBN13은 13자리 숫자입니다.
             - 도서 제목만 알고 있을 경우 searchBooks로 먼저 ISBN13을 조회한 후 사용하세요.
@@ -62,9 +56,6 @@ public class BookTools {
             
             특정 기간과 지역에서 대출 횟수가 많은 인기 도서 목록을 조회합니다.
             
-            ## 반환 정보
-            - ISBN13, 제목, 저자, 출판사, 대출 횟수
-            
             ## 파라미터 가이드
             - startDate, endDate: yyyy-MM-dd 형식 또는 자연어 표현 (오늘, 내일, 모레, 어제) 사용 가능
             - region: 지역명 (예: 광주, 서울, 경기도, 부산)
@@ -73,8 +64,8 @@ public class BookTools {
             - "올해 광주 인기 도서" → startDate=2026-01-01, endDate=2026-12-31, region=광주
             - "지난달 서울 인기 도서" → startDate=2026-05-01, endDate=2026-05-31, region=서울
             """)
-    public List<LoanBookInfo> searchHotBook(@ToolParam(description = "조회 시작 날짜 (yyyy-MM-dd 형식 또는 오늘/내일/모레/어제)") String startDate,
-                                            @ToolParam(description = "조회 종료 날짜 (yyyy-MM-dd 형식 또는 오늘/내일/모레/어제)") String endDate,
+    public List<LoanBookInfo> searchHotBook(@ToolParam(description = "조회 시작 날짜. '이번 주', '오늘', '최근' 등의 표현은 반드시 '오늘'로 변환하세요. 절대로 임의의 날짜를 추측하거나 만들지 마세요.") String startDate,
+                                            @ToolParam(description = "조회 종료 날짜. 기간이 명시되지 않으면 startDate와 동일하게 오늘로 설정하세요.") String endDate,
                                             @ToolParam(description = "지역명 (예: 광주, 서울, 경기도, 부산)") String region
     ) {
 
@@ -84,17 +75,17 @@ public class BookTools {
 
     @Tool(description = """
             # 대출 급상승 도서 조회
-            
             전주 대비 이번 주 대출 순위가 급상승한 도서 목록을 조회합니다.
-            
-            ## 반환 정보
-            - ISBN13, 제목, 저자, 출판사, 이번 주 순위 (baseWeekRank)
             
             ## 파라미터 가이드
             - searchDate: 조회 기준 날짜로, 해당 날짜가 속한 주의 급상승 도서를 반환합니다.
             - yyyy-MM-dd 형식 또는 자연어 표현 (오늘, 내일, 모레, 어제) 사용 가능
+            
+            ## 주의사항
+            - 날짜를 추측하거나 임의로 만들지 마세요.
+            - '이번 주', '최근', '지금' 등 현재를 나타내는 표현은 반드시 '오늘'로 변환하세요.
             """)
-    public List<HotTrendBookInfo> searchHotTrendBooks(@ToolParam(description = "조회 기준 날짜 (yyyy-MM-dd 형식 또는 오늘/내일/모레/어제)") String searchDate) {
+    public List<HotTrendBookInfo> searchHotTrendBooks(@ToolParam(description = "조회 기준 날짜. '오늘' 또는 '이번 주'처럼 상대적인 표현은 반드시 '오늘'로 변환하세요. yyyy-MM-dd 형식도 가능합니다. 절대로 임의의 날짜를 추측하거나 만들지 마세요.") String searchDate) {
 
         log.info("[BookTools] 급상승 도서 조회 - searchDate: {}", searchDate);
         return bookService.searchHotTrendBooks(searchDate);
@@ -109,13 +100,6 @@ public class BookTools {
             ### 추천 타입
             - `마니아` / `mania`: 해당 도서를 여러 번 읽은 마니아 독자들의 추천
             - `다독자` / `reader`: 다양한 책을 많이 읽은 다독자들의 추천
-            
-            ### 반환 필드
-            - `isbn13`: ISBN 13자리
-            - `bookName`: 도서 제목
-            - `authors`: 저자
-            - `publisher`: 출판사
-            - `publicationYear`: 출판연도
             
             ### 사용 예시
             - "JPA 프로그래밍과 비슷한 책 추천해줘" → searchBooks로 ISBN13 확보 후 mania 타입으로 호출

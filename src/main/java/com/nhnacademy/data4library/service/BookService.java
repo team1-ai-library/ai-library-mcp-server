@@ -30,6 +30,7 @@ public class BookService {
         return naruApiClient.searchBooks(title)
                 .docs()
                 .stream()
+                .limit(5)
                 .map(item -> new BookInfo(
                         item.doc().isbn13(),
                         item.doc().bookName(),
@@ -71,6 +72,7 @@ public class BookService {
                 )
                 .docs()
                 .stream()
+                .limit(5)
                 .map(item -> new LoanBookInfo(
                         item.doc().isbn13(),
                         item.doc().bookName(),
@@ -88,11 +90,13 @@ public class BookService {
         return naruApiClient.searchHotTrendBooks(DateConverter.parseAndFormat(searchDate))
                 .results()
                 .stream()
-                .findFirst() // 가장 첫 번째 인덱스를 찾으려고 했는데 값이 아무것도 없으면 NotSuchElementException이 발생로
+                .filter(r -> !r.result().docs().isEmpty()) // docs가 있는 것만
+                .findFirst() // 가장 첫 번째 인덱스를 찾으려고 했는데 값이 아무것도 없으면 NotSuchElementException이 발생
                 .orElseThrow(() -> new NaruApiException(ErrorCode.NOT_FOUND, "해당 날짜의 급상승 도서 결과가 없습니다: %s".formatted(searchDate)))
                 .result()
                 .docs()
                 .stream()
+                .limit(5) // 다섯개만
                 .map(item -> new HotTrendBookInfo(
                         item.doc().isbn13(),
                         item.doc().bookName(),
@@ -110,6 +114,7 @@ public class BookService {
         return this.naruApiClient.searchRecommendBooks(isbn13, RecommendTypeConverter.convert(type))
                 .docs()
                 .stream()
+                .limit(5)
                 .map(item -> new BookInfo(
                         item.book().isbn13(),
                         item.book().bookName(),
