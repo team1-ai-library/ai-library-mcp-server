@@ -1,0 +1,32 @@
+@baseUrl = http://data4library.kr/api
+@authKey = 60bc1d7d1fde2a404cbb0fb74d4a4ce834b658001dd9a7583db32524cdaf5abf
+
+### 도서나루 API 응답 확인
+GET {{baseUrl}}/libSrch?authKey={{authKey}}&region=24&format=json
+
+### searchBooks
+GET {{baseUrl}}/srchBooks?authKey={{authKey}}&title=코스모스&format=json
+
+### searchLibraries
+GET {{baseUrl}}/libSrch?authKey={{authKey}}&region=11&format=json
+
+### checkBookExists
+GET {{baseUrl}}/bookExist?authKey={{authKey}}&libCode=711618&isbn13=9788958284178&format=json
+
+### checkLoanAvailability
+GET {{baseUrl}}/libSrchByBook?authKey={{authKey}}&isbn=9788958284178&region=11&format=json
+
+### 도서 상세 정보 (srchDtlList)
+GET {{baseUrl}}/srchDtlList?authKey={{authKey}}&isbn13=9788960777330&format=json
+
+### 인기 대출 도서 (loanItemSrch)
+GET {{baseUrl}}/loanItemSrch?authKey={{authKey}}&startDt=2024-01-01&endDt=2024-12-31&region=29&format=json
+
+### 대출 급상승 도서 (hotTrend)
+GET {{baseUrl}}/hotTrend?authKey={{authKey}}&searchDt=2024-01-01&format=json
+
+### 추천 도서 - 마니아 (recommandList)
+GET {{baseUrl}}/recommandList?authKey={{authKey}}&isbn13=9788960777330&type=mania&format=json
+
+### 추천 도서 - 다독자 (recommandList)
+GET {{baseUrl}}/recommandList?authKey={{authKey}}&isbn13=9788960777330&type=reader&format=json
