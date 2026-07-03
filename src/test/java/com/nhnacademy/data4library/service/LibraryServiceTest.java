@@ -126,54 +126,46 @@ class LibraryServiceTest {
 
     @Test
     void searchAvailableLibraries_success() {
-         NaruLibrary naruLibrary = new NaruLibrary(
-                 "129225", "광주 북구 양산도서관", "광주광역시 북구 하서로 299", "062-410-8242", null, "37.6036883", "127.0226004", "https://lib.bukgu.gwangju.kr", "매월 첫째주, 셋째주 월요일", "평일 09:00~18:00", null
-        );
-         LibrarySearchResponse librarySearchResponse = new LibrarySearchResponse(1, 1, List.of(new LibWrapped<>(naruLibrary)));
-         given(naruApiClient.searchLibrariesByBooks("9788960777330", "24")).willReturn(librarySearchResponse);
-         BookExistsResponse.BookExistResult existResult = new BookExistsResponse.BookExistResult("Y", "Y");
-         BookExistsResponse existsResponse = new BookExistsResponse(existResult);
-         given(naruApiClient.checkBookExists("129225", "9788960777330")).willReturn(existsResponse);
-         List<LibraryAvailabilityInfo> result = libraryService.searchAvailableLibraries("9788960777330", "광주");
-         assertAll(
-                 () -> assertThat(result).hasSize(1),
-                 () -> {
-                     assertNotNull(result);
-                     assertThat(result.getFirst().libCode()).isEqualTo("129225");
-                 },
-                 () -> {
-                     assertNotNull(result);
-                     assertThat(result.getFirst().libName()).isEqualTo("광주 북구 양산도서관");
-                 },
-                 () -> {
-                     assertNotNull(result);
-                     assertThat(result.getFirst().hasBook()).isTrue();
-                 },
-                 () -> {
-                     assertNotNull(result);
-                     assertThat(result.getFirst().loanAvailable()).isTrue();
-                 }
-         );
-    }
-
-    @Test
-    void searchAvailableLibraries_searchFail() {
-        NaruLibrary naruLibrary = new NaruLibrary("129225", "광주 북구 양산도서관", "광주광역시 북구 하서로 299", "062-410-8242", null, "37.6036883", "127.0226004", "https://lib.bukgu.gwangju.kr", "매월 첫째주, 셋째주 월요일", "평일 09:00~18:00", null
+        NaruLibrary naruLibrary = new NaruLibrary(
+                "129225", "광주 북구 양산도서관", "광주광역시 북구 하서로 299", "062-410-8242", null, "37.6036883", "127.0226004", "https://lib.bukgu.gwangju.kr", "매월 첫째주, 셋째주 월요일", "평일 09:00~18:00", null
         );
         LibrarySearchResponse librarySearchResponse = new LibrarySearchResponse(1, 1, List.of(new LibWrapped<>(naruLibrary)));
         given(naruApiClient.searchLibrariesByBooks("9788960777330", "24")).willReturn(librarySearchResponse);
-        given(naruApiClient.checkBookExists("129225", "9788960777330")).willThrow(new NaruApiException(ErrorCode.NOT_FOUND, "오류"));
+        BookExistsResponse.BookExistResult existResult = new BookExistsResponse.BookExistResult("Y", "Y");
+        BookExistsResponse existsResponse = new BookExistsResponse(existResult);
+        given(naruApiClient.checkBookExists("129225", "9788960777330")).willReturn(existsResponse);
         List<LibraryAvailabilityInfo> result = libraryService.searchAvailableLibraries("9788960777330", "광주");
         assertAll(
                 () -> assertThat(result).hasSize(1),
                 () -> {
                     assertNotNull(result);
-                    assertThat(result.getFirst().hasBook()).isFalse();
+                    assertThat(result.getFirst().libCode()).isEqualTo("129225");
                 },
                 () -> {
                     assertNotNull(result);
-                    assertThat(result.getFirst().loanAvailable()).isFalse();
+                    assertThat(result.getFirst().libName()).isEqualTo("광주 북구 양산도서관");
+                },
+                () -> {
+                    assertNotNull(result);
+                    assertThat(result.getFirst().hasBook()).isTrue();
+                },
+                () -> {
+                    assertNotNull(result);
+                    assertThat(result.getFirst().loanAvailable()).isTrue();
                 }
         );
+    }
+
+    @Test
+    void searchAvailableLibraries_searchFail() {
+        NaruLibrary naruLibrary = new NaruLibrary("129225", "광주 북구 양산도서관", "광주광역시 북구 하서로 299", "062-410-8242", null, "37.6036883", "127.0226004", "https://lib.bukgu.gwangju.kr", "매월 첫째주, 셋째주 월요일", "평일 09:00~18:00", null);
+        LibrarySearchResponse librarySearchResponse = new LibrarySearchResponse(1, 1, List.of(new LibWrapped<>(naruLibrary)));
+
+        given(naruApiClient.searchLibrariesByBooks("9788960777330", "24")).willReturn(librarySearchResponse);
+        given(naruApiClient.checkBookExists("129225", "9788960777330")).willThrow(new NaruApiException(ErrorCode.NOT_FOUND, "오류"));
+
+        List<LibraryAvailabilityInfo> result = libraryService.searchAvailableLibraries("9788960777330", "광주");
+
+        assertThat(result).isEmpty();
     }
 }
